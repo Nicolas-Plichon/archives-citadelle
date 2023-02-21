@@ -1,0 +1,20 @@
+
+<%- include('partials/header'); %>
+
+<body>
+    <main>
+
+        <%- include('partials/leftMenu'); %>
+
+        <h1>Les Archives de la Citadelle</h1>
+        
+        <ul>   
+            <% for(const player of players) { %>
+
+            <li><%= player.name %> (<%= player.player_country.name %>)</li>
+            <% } %>
+            
+        </ul>
+    </main>
+</body>
+</html>

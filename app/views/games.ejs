@@ -1,0 +1,57 @@
+
+<%- include('partials/header'); %>
+
+<body>
+    <%- include('partials/leftMenu'); %>
+    
+    <h1>Les Archives de la Citadelle</h1>
+
+
+
+    <section class="tournaments_section">      
+        <table class="tournament_table">
+            <thead>
+                <tr>
+                    <th id="tournament_name">Date</th>
+                    <th id="tournament_date">Type</th>
+                    <th id="tournament_type">Tournoi</th>
+                    <th id="tournament_winner">Joueur A</th>
+                    <th id="tournament_winner">Résultat</th>
+                    <th id="tournament_link">Joueur B</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <% for(const game of games) { %>
+                    
+                    
+                    <tr>
+                        <td><%= game.date %></td>
+                        <td><%= game.game_tournament.tournament_type.name %></td>
+                        <td><%= game.game_tournament.name %></td>
+
+
+                        <% if (game.result === 'A') { %>
+
+                            <td><%= game.game_ranking_a.ranking_player.name %> (<%= game.game_ranking_a.ranking_faction.name %>)</td>
+                            <td>bat</td>
+                            <td><%= game.game_ranking_b.ranking_player.name %> (<%= game.game_ranking_b.ranking_faction.name %>)</td>
+                    
+                    <% } else { %>
+
+                        <td><%= game.game_ranking_b.ranking_player.name %> (<%= game.game_ranking_b.ranking_faction.name %>)</td>
+                        <td>bat</td>
+                        <td><%= game.game_ranking_a.ranking_player.name %> (<%= game.game_ranking_a.ranking_faction.name %>)</td>
+                            
+                            <% } %>
+
+                    </tr>
+                            
+                        <% } %>
+            </tbody>
+        </table>
+    </section>
+
+
+</body>
+</html>

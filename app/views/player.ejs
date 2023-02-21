@@ -1,0 +1,89 @@
+
+<%- include('partials/header'); %>
+
+<body>
+    <h1>Les Archives de la Citadelle</h1>
+
+    <%- include('partials/leftMenu'); %>
+
+    <section class="ranking_section">      
+        <table class="ranking_table">
+            <thead>
+                <tr>
+                    <th id="ranking_pseudo">Pseudo</th>
+                    <th id="ranking_faction">Faction</th>
+                    <th id="ranking_value">Ranking</th>
+                </tr>
+            </thead>
+            <tbody>
+
+    <% for(const ranking of rankings) { %> 
+
+                <tr>
+                    <td><%= ranking.ranking_player.name %></td>
+                    <td><%= ranking.ranking_faction.name %></td>
+                    <td><%= ranking.ranking %></td>
+                </tr>
+                
+                <%  } %>
+            </tbody>
+        </table>
+            
+        <table class="tournament_table">
+            <thead>
+                <tr>
+                    <th id="tournament_name">Date</th>
+                    <th id="tournament_date">Type</th>
+                    <th id="tournament_type">Tournoi</th>
+                    <th id="tournament_winner">Joueur A</th>
+                    <th id="tournament_winner">Résultat</th>
+                    <th id="tournament_link">Joueur B</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <% for(const game of games) { %>
+                    
+                    <tr>
+                        <td><%= game.date %></td>
+                        <td><%= game.game_tournament.tournament_type.name %></td>
+                        <td><%= game.game_tournament.name %></td>
+                    
+                    <% if (game.result === 'A') { %>
+                        <% if (Number(game.game_ranking_a.ranking_player.id) === Number(playerId)) { %>
+
+                            <td>en <%= game.game_ranking_a.ranking_faction.name %></td>
+                            <td>VICTOIRE contre</td>
+                            <td><%= game.game_ranking_b.ranking_player.name %> (<%= game.game_ranking_b.ranking_faction.name %>)</td>
+                        </tr>
+                        
+                        <% } else { %>
+                            
+                            <td>en <%= game.game_ranking_b.ranking_faction.name %></td>
+                            <td>DEFAITE contre</td>
+                            <td><%= game.game_ranking_a.ranking_player.name %> (<%= game.game_ranking_a.ranking_faction.name %>)</td>
+                        </tr>
+
+                        <% }} else if (game.result === 'B') { %>
+                            <% if (Number(game.game_ranking_b.ranking_player.id) === Number(playerId)) { %>
+
+                                <td>en <%= game.game_ranking_b.ranking_faction.name %></td>
+                                <td>VICTOIRE contre</td>
+                                <td><%= game.game_ranking_a.ranking_player.name %> (<%= game.game_ranking_a.ranking_faction.name %>)</td>
+                            </tr>
+                            
+                            <% } else { %>
+                                
+                                <td>en <%= game.game_ranking_a.ranking_faction.name %></td>
+                                <td>DEFAITE contre</td>
+                                <td><%= game.game_ranking_b.ranking_player.name %> (<%= game.game_ranking_b.ranking_faction.name %>)</td>
+                            </tr>
+                        <% }}} %>
+
+            </tbody>
+        </table>
+
+    </section>
+
+</body>
+</html>

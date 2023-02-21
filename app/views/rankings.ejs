@@ -1,0 +1,38 @@
+<%- include('partials/header'); %>
+
+<body>
+    <%- include('partials/leftMenu'); %>
+
+    <h1>Les Archives de la Citadelle</h1>
+
+    <%- include('partials/factionsLinks'); %>
+
+    <section class="ranking_section">      
+        <table class="ranking_table">
+            <thead>
+                <tr>
+                    <th id="ranking_rank">#</th>
+                    <th id="ranking_pseudo">Pseudo</th>
+                    <th id="ranking_faction">Faction</th>
+                    <th id="ranking_value">Ranking</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <%  let rang = 1;
+                for(const ranking of rankings) { %>
+                    
+                    <tr>
+                        <td><%= rang %></td>
+                        <td><a href="/players/<%= ranking.ranking_player.id %>"><%= ranking.ranking_player.name %></a></td>
+                        <td><%= ranking.ranking_faction.name %></td>
+                <td><%= ranking.ranking %></td>
+            </tr>
+            
+            <% rang++ } %>
+            </tbody>
+        </table>
+    </section>
+    
+</body>
+</html>

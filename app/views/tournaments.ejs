@@ -1,0 +1,67 @@
+
+<%- include('partials/header'); %>
+
+<body>
+    <%- include('partials/leftMenu'); %>
+
+    <h1>Les Archives de la Citadelle</h1>
+
+    <section class="tournaments_section"> 
+        
+        
+        <p>Tournois en cours</p>
+        <table class="tournament_table">
+            <thead>
+                <tr>
+                    <th id="tournament_name">Nom</th>
+                    <th id="tournament_date">Date</th>
+                    <th id="tournament_type">Type</th>
+                    <th id="tournament_link">Lien</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <% for(const tournament of openTournaments) { %>
+                    
+                <tr>
+                    <td><a href="/tournaments/<%= tournament.id %>"><%= tournament.name %></a></td>
+                    <td><%= tournament.date %></td>
+                    <td><%= tournament.tournament_type.name %></td>
+                    <td></td>
+                </tr>
+            
+            <% } %>
+            </tbody>
+        </table>
+
+        <p>Tournois terminés</p>
+        <table class="tournament_table">
+            <thead>
+                <tr>
+                    <th id="tournament_name">Nom</th>
+                    <th id="tournament_date">Date</th>
+                    <th id="tournament_type">Type</th>
+                    <th id="tournament_winner">Vainqueur</th>
+                    <th id="tournament_link">Lien</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <% for(const tournament of closedTournaments) { %>
+                    
+                <tr>
+                    <td><a href="/tournaments/<%= tournament.id %>"><%= tournament.name %></a></td>
+                    <td><%= tournament.date %></td>
+                    <td><%= tournament.tournament_type.name %></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            
+            <% } %>
+            </tbody>
+        </table>
+    </section>
+
+
+</body>
+</html>

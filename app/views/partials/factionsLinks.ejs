@@ -1,0 +1,18 @@
+<div class="faction_link">
+
+    <div>
+        <a href="/rankings">
+            Toutes
+        </a>
+    </div>
+    
+    <% for(const faction of factions) { %>
+        
+        <div>
+            <a href="<%=`/factions/${faction.name}`%>" >
+            <%= faction.name %>
+            </a>
+        </div>
+    <% } %>
+
+</div>
