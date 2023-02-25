@@ -4,19 +4,19 @@ const {
 } = require("sequelize");
 const sequelize = require("../db");
 
-class Commander extends Model {}
-Commander.init({
+class Version extends Model {}
+Version.init({
     name: {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    title: {
+    color: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     }
 }, {
     sequelize,
-    tableName: "commander",
+    tableName: "version"
 });
 
-module.exports = Commander;
+module.exports = Version;

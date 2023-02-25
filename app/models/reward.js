@@ -6,15 +6,13 @@ const sequelize = require("../db");
 
 class Reward extends Model {}
 Reward.init({
-    name: {
+    description: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
 }, {
     sequelize,
-    tableName: "reward",
-    timestamps: true,
-    underscored: true
+    tableName: "reward"
 });
 
 module.exports = Reward;

@@ -9,12 +9,14 @@ Faction.init({
     name: {
         type: DataTypes.TEXT,
         allowNull: false
+    },
+    logo: {
+        type: DataTypes.TEXT,
+        allowNull: true
     }
 }, {
     sequelize,
-    tableName: "faction",
-    timestamps: true,
-    underscored: true
+    tableName: "faction"
 });
 
 module.exports = Faction;

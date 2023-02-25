@@ -12,9 +12,7 @@ Country.init({
     }
 }, {
     sequelize,
-    tableName: "country",
-    timestamps: true,
-    underscored: true
+    tableName: "country"
 });
 
 module.exports = Country;

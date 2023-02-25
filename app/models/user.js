@@ -14,6 +14,10 @@ User.init({
         type: DataTypes.TEXT,
         allowNull: false
     },
+    password: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
     firstname: {
         type: DataTypes.TEXT,
         allowNull: true
@@ -21,19 +25,10 @@ User.init({
     lastname: {
         type: DataTypes.TEXT,
         allowNull: true
-    },
-    password: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    },
+    }
 }, {
     sequelize,
-    tableName: "user",
-    timestamps: true,
-    underscored: true
+    tableName: "user"
 });
 
 module.exports = User;
-
-// Ajouter FK role et player
-// Crypter Mot de Passe

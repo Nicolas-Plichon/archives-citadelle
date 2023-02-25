@@ -15,6 +15,7 @@ const { Op } = require('sequelize');
 async function getAllGames() {
     const gamesList = await Game.findAll({
         attributes: ['id', 'date', 'ranking_before_a', 'ranking_a_change', 'ranking_after_a', 'ranking_before_b', 'ranking_b_change', 'ranking_after_b', 'result'],
+        order: [['date', 'ASC']],
         include: [{
             model: Tournament,
             as: 'game_tournament',
@@ -75,7 +76,8 @@ async function getOnePlayerGames(playerId) {
             {'$game_ranking_a.ranking_player.id$': playerId}, {'$game_ranking_b.ranking_player.id$' : playerId}
         ]
     }, 
-        include: [{
+    order: [['date', 'ASC']],    
+    include: [{
             model: Tournament,
             as: 'game_tournament',
             attributes: ['name'],

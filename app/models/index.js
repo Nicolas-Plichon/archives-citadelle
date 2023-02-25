@@ -7,10 +7,12 @@ const Ranking = require('./ranking');
 const Reward = require('./reward');
 const Role = require('./role');
 const Scenario = require('./scenario');
+const Style = require('./style');
 const Tournament = require('./tournament');
 const Trophy = require('./trophy');
 const Type = require('./type');
 const User = require('./user');
+const Version = require('./version');
 
 // User 1N - 0N Role (Many to Many) - Table de Liaison "user_has_role"
 User.belongsToMany(Role, {
@@ -31,7 +33,7 @@ Role.belongsToMany(User, {
 User.belongsTo(Player, {
     as: "player",
     foreignKey: "player_id"
-})
+});
 
 // Ranking 1,1 - 0,N Player (One to Many)
 Player.hasMany(Ranking, {
@@ -77,7 +79,7 @@ Player.belongsTo(Country, {
     as: "player_country"
 });
 
-// Game 11 - 0N Ranking (One to Many)
+// Game 11 - 0N Ranking Joueur A (One to Many)
 Ranking.hasMany(Game, {
     foreignKey: "ranking_a_id",
     as: "games_a"
@@ -88,7 +90,7 @@ Game.belongsTo(Ranking, {
     as: "game_ranking_a"
 });
 
-// Game 11 - 0N Ranking (One to Many)
+// Game 11 - 0N Ranking Joueur B (One to Many)
 Ranking.hasMany(Game, {
     foreignKey: "ranking_b_id",
     as: "games_b"
@@ -110,7 +112,7 @@ Game.belongsTo(Scenario, {
     as: "game_scenario"
 });
 
-// Game 11 - 0N Commander (One to Many)
+// Game 11 - 0N Commander A (One to Many)
 Commander.hasMany(Game, {
     foreignKey: "commander_a_id",
     as: "games_a"
@@ -121,7 +123,7 @@ Game.belongsTo(Commander, {
     as: "game_commander_a"
 });
 
-// Game 11 - 0N Commander (One to Many)
+// Game 11 - 0N Commander B (One to Many)
 Commander.hasMany(Game, {
     foreignKey: "commander_b_id",
     as: "games_b"
@@ -174,6 +176,28 @@ Type.hasMany(Tournament, {
 Tournament.belongsTo(Type, {
     foreignKey: "type_id",
     as: "tournament_type"
+});
+
+// Tournament 11 - 0N Style (One to Many)
+Style.hasMany(Tournament, {
+    foreignKey: "style_id",
+    as: "tournaments"
+});
+
+Tournament.belongsTo(Style, {
+    foreignKey: "style_id",
+    as: "tournament_style"
+});
+
+// Tournament 11 - 0N Version (One to Many)
+Version.hasMany(Tournament, {
+    foreignKey: "version_id",
+    as: "tournaments"
+});
+
+Tournament.belongsTo(Version, {
+    foreignKey: "version_id",
+    as: "tournament_version"
 });
 
 // Reward 11 - 0N Tournament (One to Many)

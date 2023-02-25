@@ -12,9 +12,7 @@ Scenario.init({
     }
 }, {
     sequelize,
-    tableName: "scenario",
-    timestamps: true,
-    underscored: true
+    tableName: "scenario"
 });
 
 module.exports = Scenario;

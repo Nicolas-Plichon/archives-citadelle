@@ -12,9 +12,7 @@ Trophy.init({
     },
 }, {
     sequelize,
-    tableName: "trophy",
-    timestamps: true,
-    underscored: true
+    tableName: "trophy"
 });
 
 module.exports = Trophy;

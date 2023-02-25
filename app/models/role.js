@@ -12,9 +12,7 @@ Role.init({
     }
 }, {
     sequelize,
-    tableName: "role",
-    timestamps: true,
-    underscored: true
+    tableName: "role"
 });
 
 module.exports = Role;

@@ -10,6 +10,10 @@ Game.init({
         type: DataTypes.DATE,
         allowNull: false
     },
+    round: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
     ranking_before_a: {
         type: DataTypes.DECIMAL,
         allowNull: false
@@ -40,9 +44,7 @@ Game.init({
     }
 }, {
     sequelize,
-    tableName: "game",
-    timestamps: true,
-    underscored: true
+    tableName: "game"
 });
 
 module.exports = Game;

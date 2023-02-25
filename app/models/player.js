@@ -12,9 +12,7 @@ Player.init({
     }
 }, {
     sequelize,
-    tableName: "player",
-    timestamps: true,
-    underscored: true
+    tableName: "player"
 });
 
 module.exports = Player;

@@ -17,6 +17,11 @@ Tournament.init({
     link: {
         type: DataTypes.TEXT,
         allowNull: true
+    },
+    is_closed: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     sequelize,
@@ -26,5 +31,3 @@ Tournament.init({
 });
 
 module.exports = Tournament;
-
-// Ajouter FK type, winner

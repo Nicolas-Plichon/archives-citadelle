@@ -9,12 +9,14 @@ Type.init({
     name: {
         type: DataTypes.TEXT,
         allowNull: false
+    },
+    color: {
+        type: DataTypes.TEXT,
+        allowNull: true
     }
 }, {
     sequelize,
-    tableName: "type",
-    timestamps: true,
-    underscored: true
+    tableName: "type"
 });
 
 module.exports = Type;
