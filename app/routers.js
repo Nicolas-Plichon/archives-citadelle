@@ -3,6 +3,8 @@ const mainController = require('./controllers/mainController');
 
 const router = express.Router();
 
+router.get('/test', mainController.test);
+
 router.get('/', mainController.homePage);
 
 router.get('/players', mainController.pagePlayers);

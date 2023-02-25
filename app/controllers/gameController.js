@@ -259,5 +259,5 @@ async function getOneTournamentGames(tournamentId) {
 module.exports = {
     getAllGames,
     getOnePlayerGames,
-    getOneTournamentGames
+    getOneTournamentGames,
 };

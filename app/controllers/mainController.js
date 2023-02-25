@@ -2,10 +2,26 @@ const { getAllFactions } = require("./factionController");
 const { getAllGames, getOnePlayerGames, getOneTournamentGames } = require("./gameController");
 const { getAllPlayers } = require("./playerController");
 const { getAllRankings, getOneRanking, getOnePlayerRankings } = require("./rankingController");
-const { getOpenTournaments, getClosedTournaments } = require("./tournamentController");
+const { getOpenTournaments, getClosedTournaments, countOfRounds } = require("./tournamentController");
 
 
 const mainController = {
+
+    async test(req, res) {
+        try {
+            const games = await getOneTournamentGames(1);
+            const rounds = await countOfRounds(1);
+            const count = rounds.count;
+            const table = rounds.rows;
+            res.render('test', {
+                games,
+                count,
+                table
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    },
 
     homePage(req, res) {
         res.render('home');
@@ -77,8 +93,13 @@ const mainController = {
         const tournamentId = req.params.id;
         try {
             const games = await getOneTournamentGames(tournamentId);
+            const rounds = await countOfRounds(tournamentId);
+            const count = rounds.count;
+            const table = rounds.rows;
             res.render('tournamentGames', {
-                games
+                games,
+                count,
+                table
             })
         } catch (err) {
             console.log(err)
