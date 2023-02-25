@@ -53,3 +53,7 @@
 table {
     border: 1px solid black;
 }
+
+.games-player img {
+    height: 20px;
+}

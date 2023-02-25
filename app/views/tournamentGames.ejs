@@ -5,6 +5,8 @@
     <%- include('partials/leftMenu'); %>
     
     <h1>Les Archives de la Citadelle</h1>
+    <h2><%= games[0].game_round.round_tournament.name %></h2>
+    <h3><%= games[0].game_round.round_tournament.start_date %> | <%= games[0].game_round.round_tournament.tournament_type.name %></h3>
 
 
 
@@ -12,9 +14,6 @@
         <table class="tournament_table">
             <thead>
                 <tr>
-                    <th id="tournament_name">Date</th>
-                    <th id="tournament_date">Type</th>
-                    <th id="tournament_type">Tournoi</th>
                     <th id="tournament_type">Ronde</th>
                     <th id="tournament_type">Scenario</th>
                     <th id="tournament_winner">Joueur A</th>
@@ -28,9 +27,6 @@
                     
                     
                     <tr>
-                        <td><%= game.game_round.date %></td>
-                        <td><%= game.game_round.round_tournament.tournament_type.name %></td>
-                        <td><%= game.game_round.round_tournament.name %></td>
                         <td><%= game.game_round.position %></td>
                         <td><%= game.game_round.round_scenario.name %></td>
 

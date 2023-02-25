@@ -77,7 +77,7 @@ const mainController = {
         const tournamentId = req.params.id;
         try {
             const games = await getOneTournamentGames(tournamentId);
-            res.render('games', {
+            res.render('tournamentGames', {
                 games
             })
         } catch (err) {

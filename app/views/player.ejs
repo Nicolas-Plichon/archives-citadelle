@@ -45,38 +45,38 @@
                 <% for(const game of games) { %>
                     
                     <tr>
-                        <td><%= game.date %></td>
-                        <td><%= game.game_tournament.tournament_type.name %></td>
-                        <td><%= game.game_tournament.name %></td>
+                        <td><%= game.game_round.date %></td>
+                        <td><%= game.game_round.round_tournament.tournament_type.name %></td>
+                        <td><%= game.game_round.round_tournament.name %></td>
                     
                     <% if (game.result === 'A') { %>
                         <% if (Number(game.game_ranking_a.ranking_player.id) === Number(playerId)) { %>
 
-                            <td>en <%= game.game_ranking_a.ranking_faction.name %></td>
+                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
                             <td>VICTOIRE contre</td>
-                            <td><%= game.game_ranking_b.ranking_player.name %> (<%= game.game_ranking_b.ranking_faction.name %>)</td>
+                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %> </br> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
                         </tr>
                         
                         <% } else { %>
                             
-                            <td>en <%= game.game_ranking_b.ranking_faction.name %></td>
+                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></br></td>
                             <td>DEFAITE contre</td>
-                            <td><%= game.game_ranking_a.ranking_player.name %> (<%= game.game_ranking_a.ranking_faction.name %>)</td>
+                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
                         </tr>
 
                         <% }} else if (game.result === 'B') { %>
                             <% if (Number(game.game_ranking_b.ranking_player.id) === Number(playerId)) { %>
 
-                                <td>en <%= game.game_ranking_b.ranking_faction.name %></td>
+                                <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
                                 <td>VICTOIRE contre</td>
-                                <td><%= game.game_ranking_a.ranking_player.name %> (<%= game.game_ranking_a.ranking_faction.name %>)</td>
+                                <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
                             </tr>
                             
                             <% } else { %>
                                 
-                                <td>en <%= game.game_ranking_a.ranking_faction.name %></td>
+                                <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
                                 <td>DEFAITE contre</td>
-                                <td><%= game.game_ranking_b.ranking_player.name %> (<%= game.game_ranking_b.ranking_faction.name %>)</td>
+                                <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %> </br> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
                             </tr>
                         <% }}} %>
 

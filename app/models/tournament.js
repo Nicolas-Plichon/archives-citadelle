@@ -10,9 +10,13 @@ Tournament.init({
         type: DataTypes.TEXT,
         allowNull: false
     },
-    date: {
+    start_date: {
         type: DataTypes.DATE,
-        allowNull: true
+        allowNull: false
+    }, 
+    end_date: {
+        type: DataTypes.DATE,
+        allowNull: false
     }, 
     link: {
         type: DataTypes.TEXT,
@@ -25,9 +29,7 @@ Tournament.init({
     }
 }, {
     sequelize,
-    tableName: "tournament",
-    timestamps: true,
-    underscored: true
+    tableName: "tournament"
 });
 
 module.exports = Tournament;

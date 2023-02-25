@@ -6,9 +6,9 @@ const {
 
 async function getOpenTournaments() {
     const tournamentList = await Tournament.findAll({
-        attributes: ['id', 'name', 'date', 'link', 'is_closed'],
+        attributes: ['id', 'name', 'start_date', 'link', 'is_closed'],
         where: { is_closed: false},
-        order: [['date', 'ASC']],
+        order: [['start_date', 'ASC']],
         include: [{
             model: Type,
             as: 'tournament_type',
@@ -20,9 +20,9 @@ async function getOpenTournaments() {
 
 async function getClosedTournaments() {
     const tournamentList = await Tournament.findAll({
-        attributes: ['id', 'name', 'date', 'link', 'is_closed'],
+        attributes: ['id', 'name', 'start_date', 'link', 'is_closed'],
         where: { is_closed: true},
-        order: [['date', 'ASC']],
+        order: [['start_date', 'ASC']],
         include: [{
             model: Type,
             as: 'tournament_type',

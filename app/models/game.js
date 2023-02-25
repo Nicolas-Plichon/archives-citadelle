@@ -6,14 +6,6 @@ const sequelize = require("../db");
 
 class Game extends Model {}
 Game.init({
-    date: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    round: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
     ranking_before_a: {
         type: DataTypes.DECIMAL,
         allowNull: false

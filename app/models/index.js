@@ -13,6 +13,7 @@ const Trophy = require('./trophy');
 const Type = require('./type');
 const User = require('./user');
 const Version = require('./version');
+const Round = require('./round');
 
 // User 1N - 0N Role (Many to Many) - Table de Liaison "user_has_role"
 User.belongsToMany(Role, {
@@ -101,16 +102,16 @@ Game.belongsTo(Ranking, {
     as: "game_ranking_b"
 });
 
-// Game 11 - 0N Scenario (One to Many)
-Scenario.hasMany(Game, {
-    foreignKey: "scenario_id",
-    as: "games"
-});
+// // Game 11 - 0N Scenario (One to Many)
+// Scenario.hasMany(Game, {
+//     foreignKey: "scenario_id",
+//     as: "games"
+// });
 
-Game.belongsTo(Scenario, {
-    foreignKey: "scenario_id",
-    as: "game_scenario"
-});
+// Game.belongsTo(Scenario, {
+//     foreignKey: "scenario_id",
+//     as: "game_scenario"
+// });
 
 // Game 11 - 0N Commander A (One to Many)
 Commander.hasMany(Game, {
@@ -134,6 +135,39 @@ Game.belongsTo(Commander, {
     as: "game_commander_b"
 });
 
+// Game 11 - 0N Round (One to Many)
+Round.hasMany(Game, {
+    foreignKey: "round_id",
+    as: "games"
+});
+
+Game.belongsTo(Round, {
+    foreignKey: "round_id",
+    as: "game_round"
+});
+
+// Round 11 - 0N Scenario (One to Many)
+Scenario.hasMany(Round, {
+    foreignKey: "scenario_id",
+    as: "rounds"
+});
+
+Round.belongsTo(Scenario, {
+    foreignKey: "scenario_id",
+    as: "round_scenario"
+});
+
+// Round 11 - 0N Tournament (One to Many)
+Tournament.hasMany(Round, {
+    foreignKey: "tournament_id",
+    as: "rounds"
+});
+
+Round.belongsTo(Tournament, {
+    foreignKey: "tournament_id",
+    as: "round_tournament"
+});
+
 // Commander 11 - 0N Faction (One to Many)
 Faction.hasMany(Commander, {
     foreignKey: "faction_id",
@@ -145,16 +179,16 @@ Commander.belongsTo(Faction, {
     as: "commander_faction"
 });
 
-// Game 11 - 0N Tournament (One to Many)
-Tournament.hasMany(Game, {
-    foreignKey: "tournament_id",
-    as: "games"
-});
+// // Game 11 - 0N Tournament (One to Many)
+// Tournament.hasMany(Game, {
+//     foreignKey: "tournament_id",
+//     as: "games"
+// });
 
-Game.belongsTo(Tournament, {
-    foreignKey: "tournament_id",
-    as: "game_tournament"
-});
+// Game.belongsTo(Tournament, {
+//     foreignKey: "tournament_id",
+//     as: "game_tournament"
+// });
 
 // Tournament 01 - 0N Country (One to Many)
 Country.hasMany(Tournament, {
@@ -247,5 +281,8 @@ module.exports = {
     Tournament,
     User,
     Trophy,
-    Type
+    Type,
+    Style,
+    Version,
+    Round
 }
