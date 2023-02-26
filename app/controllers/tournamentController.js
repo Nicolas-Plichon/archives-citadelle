@@ -38,7 +38,6 @@ async function getClosedTournaments() {
     return tournamentList;
 };
 
-// compter le nombre de rounds d'un tournoi
 async function countOfRounds(tournamentId) {
     const { count, rows } = await Round.findAndCountAll({
         attributes: ['id', 'date', 'position'],
@@ -69,6 +68,7 @@ async function countOfRounds(tournamentId) {
     })
     return { count, rows };
 };
+
 
 module.exports = {
     getOpenTournaments,

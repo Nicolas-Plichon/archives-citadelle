@@ -8,18 +8,13 @@ const { getOpenTournaments, getClosedTournaments, countOfRounds } = require("./t
 const mainController = {
 
     async test(req, res) {
+        const playerId = 1;
         try {
-            const games = await getOneTournamentGames(1);
-            const rounds = await countOfRounds(1);
-            const count = rounds.count;
-            const table = rounds.rows;
-            res.render('test', {
-                games,
-                count,
-                table
-            })
+            const rankings = await getOnePlayerRankings(playerId);
+            const games = await getOnePlayerGames(playerId);
+            res.render('test', { playerId, rankings, games });
         } catch (err) {
-            console.log(err)
+            res.status(500).send(err.stack);
         }
     },
 

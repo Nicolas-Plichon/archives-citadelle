@@ -10,7 +10,6 @@
         <table class="ranking_table">
             <thead>
                 <tr>
-                    <th id="ranking_pseudo">Pseudo</th>
                     <th id="ranking_faction">Faction</th>
                     <th id="ranking_value">Ranking</th>
                 </tr>
@@ -20,7 +19,6 @@
     <% for(const ranking of rankings) { %> 
 
                 <tr>
-                    <td><%= ranking.ranking_player.name %></td>
                     <td><%= ranking.ranking_faction.name %></td>
                     <td><%= ranking.ranking %></td>
                 </tr>
@@ -28,61 +26,211 @@
                 <%  } %>
             </tbody>
         </table>
-            
+    </section>
+
+    <!-- Deuxième partie de la page : la liste des tournois et des games -->
+    <section> 
+
+        <!-- Nom du premier tournoi -->
+        <p><b><%= games[0].game_round.round_tournament.name %></b></p>
+
+        <!-- On ouvre le premier tableau -->
         <table class="tournament_table">
             <thead>
                 <tr>
-                    <th id="tournament_name">Date</th>
-                    <th id="tournament_date">Type</th>
-                    <th id="tournament_type">Tournoi</th>
                     <th id="tournament_winner">Joueur A</th>
                     <th id="tournament_winner">Résultat</th>
                     <th id="tournament_link">Joueur B</th>
                 </tr>
             </thead>
             <tbody>
-                
-                <% for(const game of games) { %>
+
+         <!-- On Définit une valeur de comparaison et une valeur de vérification de la fin de boucle  -->
+        <% let verif = 1; let compare = 0; %> 
+
+        <!-- On lance la boucle de la liste des parties -->
+        <% for (const game of games) { %>
+            <!-- Pour le premier tour de boucle, on ne veut pas de comparaison avec le tournoi précédent (puisqu'il n'existe pas) -->
+            <% if (verif === 1) { %>
+
+                <% if (game.result === 'A') { %>
+                    <% if (Number(game.game_ranking_a.ranking_player.id) === Number(playerId)) { %>
                     
                     <tr>
-                        <td><%= game.game_round.date %></td>
-                        <td><%= game.game_round.round_tournament.tournament_type.name %></td>
-                        <td><%= game.game_round.round_tournament.name %></td>
+                        <td class="games-player"><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
+                        <td>VICTOIRE contre</td>
+                        <td class="games-player"><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %> </br> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
+                    </tr>
                     
+                    <% } else { %>
+                        
+                    <tr>
+                        <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></br></td>
+                        <td>DEFAITE contre</td>
+                        <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
+                    </tr>
+
+                    <% }} else if (game.result === 'B') { %>
+                        <% if (Number(game.game_ranking_b.ranking_player.id) === Number(playerId)) { %>
+
+                        <tr>
+                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
+                            <td>VICTOIRE contre</td>
+                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
+                        </tr>
+                        
+                        <% } else { %>
+
+                        <tr>
+                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
+                            <td>DEFAITE contre</td>
+                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %> </br> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
+                        </tr>
+                    <% }} %>
+
+                    <!-- On vérifie si on doit fermer le tableau ou pas -->
+                    <% if (verif === games.length) { console.log('STOP ICI !') ; %>
+
+                </tbody>
+            </table>
+
+                    <% } else if (game.game_round.round_tournament.name != games[compare+2].game_round.round_tournament.name) { %>
+
+                    </tbody>
+                </table>
+        
+                                <% } %> 
+
+                <!-- On augmente que verif (pas compare) -->
+                <% verif++ %>
+
+            <% } else { %> <!-- On n'est plus dans le premier tour de boucle (verif est au moins égal à 2) -->
+            
+            <!-- Pour chaque boucle des games, si le nom du tournoi est le même que le précédent dans l'objet, on continue la table avec le résultat de la game -->
+                <% if (game.game_round.round_tournament.name === games[compare].game_round.round_tournament.name) { %>
+
                     <% if (game.result === 'A') { %>
                         <% if (Number(game.game_ranking_a.ranking_player.id) === Number(playerId)) { %>
-
-                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
+                        
+                        <tr>
+                            <td class="games-player"><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
                             <td>VICTOIRE contre</td>
-                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %> </br> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
+                            <td class="games-player"><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %> </br> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
                         </tr>
                         
                         <% } else { %>
                             
+                        <tr>
                             <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></br></td>
                             <td>DEFAITE contre</td>
                             <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
                         </tr>
-
+    
                         <% }} else if (game.result === 'B') { %>
                             <% if (Number(game.game_ranking_b.ranking_player.id) === Number(playerId)) { %>
-
+    
+                            <tr>
                                 <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
                                 <td>VICTOIRE contre</td>
                                 <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
                             </tr>
                             
                             <% } else { %>
-                                
+    
+                            <tr>
                                 <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
                                 <td>DEFAITE contre</td>
                                 <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %> </br> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
                             </tr>
-                        <% }}} %>
+                        <% }} %>
 
-            </tbody>
-        </table>
+                        <!-- On vérifie si on doit fermer le tableau ou pas -->
+                    <% if (verif === games.length) { console.log('STOP ICI !') ; %>
 
+                </tbody>
+            </table>
+
+                    <% } else if (game.game_round.round_tournament.name != games[compare+2].game_round.round_tournament.name) { %>
+
+                    </tbody>
+                </table>
+        
+                                <% } %> 
+
+                <!-- Si le  nom du tournoi est différent du précédent-->
+                <% } else { %>
+
+                    <!-- Alors on affiche le nom du tournoi -->
+                    <p><b><%= game.game_round.round_tournament.name %></b></p>
+
+                    <!-- Et on ouvre une nouvelle table -->
+        <table class="tournament_table">
+            <thead>
+                <tr>
+                    <th id="tournament_winner">Joueur A</th>
+                    <th id="tournament_winner">Résultat</th>
+                    <th id="tournament_link">Joueur B</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                    <!-- Et on rentre le premier résultat -->
+                    <% if (game.result === 'A') { %>
+                        <% if (Number(game.game_ranking_a.ranking_player.id) === Number(playerId)) { %>
+                        
+                        <tr>
+                            <td class="games-player"><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
+                            <td>VICTOIRE contre</td>
+                            <td class="games-player"><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %> </br> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
+                        </tr>
+                        
+                        <% } else { %>
+                            
+                        <tr>
+                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></br></td>
+                            <td>DEFAITE contre</td>
+                            <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
+                        </tr>
+    
+                        <% }} else if (game.result === 'B') { %>
+                            <% if (Number(game.game_ranking_b.ranking_player.id) === Number(playerId)) { %>
+    
+                            <tr>
+                                <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
+                                <td>VICTOIRE contre</td>
+                                <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
+                            </tr>
+                            
+                            <% } else { %>
+    
+                            <tr>
+                                <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> </br> <%= game.game_commander_a.name %>, <%= game.game_commander_a.title %></td>
+                                <td>DEFAITE contre</td>
+                                <td class="games-player"><img src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %> </br> <%= game.game_commander_b.name %>, <%= game.game_commander_b.title %></td>
+                            </tr>
+                        <% }} %>
+
+                        <!-- On vérifie si on doit fermer le tableau ou pas -->
+                    <% if (verif === games.length) { console.log('STOP ICI !') ; %>
+
+                </tbody>
+            </table>
+
+                    <% } else if (game.game_round.round_tournament.name != games[compare+2].game_round.round_tournament.name) { %>
+
+                    </tbody>
+                </table>
+        
+                                <% } %>                      
+
+                <% } %>
+                <% compare++ ; %>
+                <% if (verif < games.length) { verif++ } %>
+                
+                <% } %>
+                
+        <% } %>
+     
     </section>
 
 </body>
