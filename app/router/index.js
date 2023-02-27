@@ -1,6 +1,6 @@
 // Setup des routes
 const express = require('express');
-const router = express.Router;
+const router = express.Router();
 
 // Import des différents routers
 const playerRouter = require('./player');
