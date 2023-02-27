@@ -1,0 +1,20 @@
+
+<%- include('partials/header'); %>
+
+<body>
+    <main>
+
+        <%- include('partials/leftMenu'); %>
+
+        <h1>Les Archives de la Citadelle</h1>
+        
+        <ul>   
+            <% for(const country of countries) { %>
+
+            <li><%= country.name %></li>
+            <% } %>
+            
+        </ul>
+    </main>
+</body>
+</html>

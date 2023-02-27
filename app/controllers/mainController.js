@@ -22,16 +22,16 @@ const mainController = {
         res.render('home');
     },
 
-    async pagePlayers(req, res) {
-        try {
-            const players = await getAllPlayers();
-            res.render('players', {
-                players
-            })
-        } catch (err) {
-            console.log(err);
-        }
-    },
+    // async pagePlayers(req, res) {
+    //     try {
+    //         const players = await getAllPlayers();
+    //         res.render('players', {
+    //             players
+    //         })
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // },
 
     async pageOnePlayer(req, res) {
         const playerId = req.params.id;

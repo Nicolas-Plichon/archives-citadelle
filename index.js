@@ -3,7 +3,7 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const session = require('express-session')
-const router = require('./app/routers');
+const globalRouter = require('./app/router');
 
 const port = process.env.PORT || 3000;
 
@@ -30,7 +30,7 @@ app.use(session({
    }
 }));
 
-app.use(router);
+app.use(globalRouter);
 
 app.listen(port, _ => {
    console.log(`http://localhost:${port}`);
