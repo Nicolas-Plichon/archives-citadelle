@@ -5,13 +5,12 @@ const {
 
 const factionController = {
 
-    async getAll(req, res) {
-        try {
-            const factions = await Faction.findAll();
-            res.json(factions)
-        } catch (err) {
-            console.log(err);
-        }
+    async getAll() {
+        const factionList = await Faction.findAll({
+            attributes: ['id', 'name'],
+            order: [['name', 'ASC']]
+        });
+        return factionList;
     },
 
     async getOne(req, res) {
@@ -76,14 +75,7 @@ const factionController = {
         }
     },
 
-    // A voir si on doit garder
-    async getAllFactions() {
-        const factionList = await Faction.findAll({
-            attributes: ['id', 'name'],
-            order: [['name', 'ASC']]
-        });
-        return factionList;
-    }
+    
 
 }
 

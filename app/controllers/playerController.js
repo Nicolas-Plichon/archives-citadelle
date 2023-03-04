@@ -4,6 +4,11 @@ const {
     Country
 } = require('../models');
 
+// Controllers
+const gameController = require('./gameController');
+const rankingController = require('./rankingController');
+
+
 const playerController = {
     
      async getAll(req, res) {
@@ -24,11 +29,30 @@ const playerController = {
         }
     },
 
+    async getOnePlayer(req, res) {
+        const playerId = req.params.id;
+        try {
+            const player = await playerController.getOne(playerId);
+            const rankings = await rankingController.getOnePlayerRankings(playerId);
+            const games = await gameController.getOnePlayerGames(playerId);
+            res.render('player', { playerId, player, rankings, games });
+        } catch (err) {
+            res.status(500).send(err.stack);
+        }
+    },
+
     async getOne(req, res) {
         try {
             const playerId = req.params.id;
-            const player = await Player.findByPk(playerId);
-            res.json(player);
+            const player = await Player.findByPk(playerId, {
+                attributes: ['id', 'name'],
+                include: {
+                    model: Country,
+                    as: 'player_country',
+                    attributes: ['name']
+                }
+            });
+            return player;
         } catch (err) {
             console.log(err)
         }

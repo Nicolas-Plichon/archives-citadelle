@@ -1,14 +1,14 @@
 // Setup des routes
 const express = require('express');
-const tournamentController = require('../controllers/tournamentController');
 const router = express.Router();
+const tournamentController = require('../controllers/tournamentController');
 
-// router.get('/', tournamentController.getAll);
-// router.get('/:id', tournamentController.getOne);
-
-// // CR.U.D.
-// router.post('/', tournamentController.create);
-// router.put('/:id', tournamentController.update);
-// router.delete('/:id', tournamentController.delete);
+router.get('/', tournamentController.all);
+router.get('/open', tournamentController.allOpen);
+router.get('/close', tournamentController.allClosed);
+router.get('/:country', tournamentController.allFromCountry);
+router.get('/:country/open', tournamentController.allOpenFromCountry);
+router.get('/:country/closed', tournamentController.allClosedFromCountry);
+router.get('/:id', tournamentController.one);
 
 module.exports = router;

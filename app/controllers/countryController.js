@@ -6,7 +6,9 @@ const countryController = {
 
     async getAll(req, res) {
         try {
-            const countries = await Country.findAll();
+            const countries = await Country.findAll({
+                order: [['name', 'ASC']]
+            });
             res.json(countries)
         } catch (err) {
             console.log(err);

@@ -5,25 +5,407 @@ const {
     Type
 } = require('../models');
 
+// Controllers
+const factionController = require('./factionController');
+
+
 const rankingController = {
 
-    async getAll(req, res) {
+    async all(req, res) {
         try {
-            const rankings = await Ranking.findAll();
-            res.json(rankings)
+            const rankings = await rankingController.getAll();
+            const factions = await factionController.getAll();
+            res.render('rankings', {
+                rankings,
+                factions
+            })
         } catch (err) {
             console.log(err);
         }
     },
 
-    async getOne(req, res) {
+    async OneFaction(req, res) {
+        const factionName = req.params.faction;
         try {
-            const rankingId = req.params.id;
-            const ranking = await Ranking.findByPk(rankingId);
-            res.json(ranking);
+            const rankings = await rankingController.getOneFactionRanking(factionName);
+            const factions = await factionController.getAll();
+            res.render('rankings', {
+                rankings,
+                factions
+            })
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
+    },
+
+    async OneType(req, res) {
+        const typeName = req.params.type;
+        try {
+            const rankings = await rankingController.getOneType(typeName);
+            const factions = await factionController.getAll();
+            res.render('rankings', {
+                rankings,
+                factions
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    async OneFactionOneType(req, res) {
+        const factionName = req.params.faction;
+        const typeName = req.params.type;
+        try {
+            const rankings = await rankingController.getOneFactionOneType(factionName, typeName);
+            const factions = await factionController.getAll();
+            res.render('rankings', {
+                rankings,
+                factions
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    async OneCountry(req, res) {
+        const countryName = req.params.country;
+        try {
+            const rankings = await rankingController.getOneCountry(countryName);
+            const factions = await factionController.getAll();
+            res.render('rankings', {
+                rankings,
+                factions
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    async OneCountryOneFaction(req, res) {
+        const countryName = req.params.country;
+        const factionName = req.params.faction;
+        try {
+            const rankings = await rankingController.getOneCountryOneFaction(countryName, factionName);
+            const factions = await factionController.getAll();
+            res.render('rankings', {
+                rankings,
+                factions
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    async OneCountryOneType(req, res) {
+        const countryName = req.params.country;
+        const typeName = req.params.type;
+        try {
+            const rankings = await rankingController.getOneCountryOneType(countryName, typeName);
+            const factions = await factionController.getAll();
+            res.render('rankings', {
+                rankings,
+                factions
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    async OneCountryOneFactionOneType(req, res) {
+        const countryName = req.params.country;
+        const factionName = req.params.faction;
+        const typeName = req.params.type;
+        try {
+            const rankings = await rankingController.getOneCountryOneFactionOneType(countryName, factionName, typeName);
+            const factions = await factionController.getAll();
+            res.render('rankings', {
+                rankings,
+                factions
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    async getOnePlayer(playerId) {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name'],
+                where: { id: playerId },
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                attributes: ['name'],
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
+    },
+
+    async getAll() {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name'],
+                include: {
+                    model: Country,
+                    as: 'player_country',
+                    attributes: ['name']
+                }
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                attributes: ['name']
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
+    },
+
+    async getOnePlayerRankings(playerId) {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name'],
+                where: { id: playerId },
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                attributes: ['name'],
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
+    },
+
+    async getAll() {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name'],
+                include: {
+                    model: Country,
+                    as: 'player_country',
+                    attributes: ['name']
+                }
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                attributes: ['name']
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
+    },
+
+    async getOneFactionRanking(factionName) {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name']
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                attributes: ['name'],
+                where: {name: factionName}
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
+    },
+
+    async getOneType(typeName) {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name'],
+                include: {
+                    model: Country,
+                    as: 'player_country',
+                    attributes: ['name']
+                }
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                attributes: ['name']
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                where: {name: typeName},
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
+    },
+
+    // Les rankings d'un tri faction / Type
+    async getOneFactionOneType(factionName, typeName) {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name']
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                attributes: ['name'],
+                where: {name: factionName}
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                where: {name: typeName},
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
+    },
+
+    async getOneCountry(countryName) {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name'],
+                include: {
+                    model: Country,
+                    as: 'player_country',
+                    where: {name: countryName},
+                    attributes: ['name']
+                }
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                attributes: ['name']
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
+    },
+
+    async getOneCountryOneFaction(countryName, factionName) {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name'],
+                include: {
+                    model: Country,
+                    as: 'player_country',
+                    where: {name: countryName},
+                    attributes: ['name']
+                }
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                where: {name: factionName},
+                attributes: ['name']
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
+    },
+
+    async getOneCountryOneType(countryName, typeName) {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name'],
+                include: {
+                    model: Country,
+                    as: 'player_country',
+                    where: {name: countryName},
+                    attributes: ['name']
+                }
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                attributes: ['name']
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                where: {name: typeName},
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
+    },
+
+    async getOneCountryOneFactionOneType(countryName, factionName, typeName) {
+        const rankingList = await Ranking.findAll({
+            attributes: ['id', 'ranking'],
+            order: [['ranking', 'DESC']],
+            include: [{
+                model: Player,
+                as: 'ranking_player',
+                attributes: ['id', 'name'],
+                include: {
+                    model: Country,
+                    as: 'player_country',
+                    where: {name: countryName},
+                    attributes: ['name']
+                }
+            }, {
+                model: Faction,
+                as: 'ranking_faction',
+                where: {name: factionName},
+                attributes: ['name']
+            }, {
+                model: Type,
+                as: 'ranking_type',
+                where: {name: typeName},
+                attributes: ['name']
+            }]
+        });
+        return rankingList;
     },
 
     async create(req, res) {
@@ -84,7 +466,7 @@ const rankingController = {
     async delete (req, res) {
         try {
             const rankingId = req.params.id;
-            const ranking = await Ranking.findByPk(countryId);
+            const ranking = await Ranking.findByPk(rankingId);
 
             if(ranking) {
                 await ranking.destroy();
@@ -95,74 +477,6 @@ const rankingController = {
         } catch (err) {
             console.log(err)
         }
-    },
-    
-    // A vérifier ce qu'on doit garder ou modifier
-
-    // Liste des Rankings, dans l'ordre décroissant
-    async getAllRankings() {
-        const rankingList = await Ranking.findAll({
-            attributes: ['id', 'ranking'],
-            order: [['ranking', 'DESC']],
-            include: [{
-                model: Player,
-                as: 'ranking_player',
-                attributes: ['id', 'name']
-            }, {
-                model: Faction,
-                as: 'ranking_faction',
-                attributes: ['name']
-            }, {
-                model: Type,
-                as: 'ranking_type',
-                attributes: ['name']
-            }]
-        });
-        return rankingList;
-    },
-
-    async getOneRanking(factionName) {
-        const rankingList = await Ranking.findAll({
-            attributes: ['id', 'ranking'],
-            order: [['ranking', 'DESC']],
-            include: [{
-                model: Player,
-                as: 'ranking_player',
-                attributes: ['id', 'name']
-            }, {
-                model: Faction,
-                as: 'ranking_faction',
-                attributes: ['name'],
-                where: {name: factionName}
-            }, {
-                model: Type,
-                as: 'ranking_type',
-                attributes: ['name']
-            }]
-        });
-        return rankingList;
-    },
-
-    async getOnePlayerRankings(playerId) {
-        const rankingList = await Ranking.findAll({
-            attributes: ['id', 'ranking'],
-            order: [['ranking', 'DESC']],
-            include: [{
-                model: Player,
-                as: 'ranking_player',
-                attributes: ['id', 'name'],
-                where: { id: playerId },
-            }, {
-                model: Faction,
-                as: 'ranking_faction',
-                attributes: ['name'],
-            }, {
-                model: Type,
-                as: 'ranking_type',
-                attributes: ['name']
-            }]
-        });
-        return rankingList;
     },
 
 };

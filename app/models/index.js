@@ -102,17 +102,6 @@ Game.belongsTo(Ranking, {
     as: "game_ranking_b"
 });
 
-// // Game 11 - 0N Scenario (One to Many)
-// Scenario.hasMany(Game, {
-//     foreignKey: "scenario_id",
-//     as: "games"
-// });
-
-// Game.belongsTo(Scenario, {
-//     foreignKey: "scenario_id",
-//     as: "game_scenario"
-// });
-
 // Game 11 - 0N Commander A (One to Many)
 Commander.hasMany(Game, {
     foreignKey: "commander_a_id",
@@ -178,17 +167,6 @@ Commander.belongsTo(Faction, {
     foreignKey: "faction_id",
     as: "commander_faction"
 });
-
-// // Game 11 - 0N Tournament (One to Many)
-// Tournament.hasMany(Game, {
-//     foreignKey: "tournament_id",
-//     as: "games"
-// });
-
-// Game.belongsTo(Tournament, {
-//     foreignKey: "tournament_id",
-//     as: "game_tournament"
-// });
 
 // Tournament 01 - 0N Country (One to Many)
 Country.hasMany(Tournament, {

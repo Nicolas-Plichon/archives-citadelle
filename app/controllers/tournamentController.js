@@ -4,19 +4,103 @@ const {
     Round,
     Scenario,
     Style,
-    Version
+    Version,
+    Country
 } = require('../models');
+
+const gameController = require('./gameController');
 
 const { Op } = require('sequelize');
 
 const tournamentController = {
 
-    async getAll(req, res) {
+    async all(req, res) {
         try {
-            const tournaments = await Tournament.findAll();
-            res.json(tournaments)
+            const openTournaments = await tournamentController.getOpen();
+            const closedTournaments = await tournamentController.getClosed();
+            res.render('tournaments', {
+                openTournaments,
+                closedTournaments
+            })
         } catch (err) {
-            console.log(err);
+            console.log(err)
+        }
+    },
+
+    async allOpen(req, res) {
+        try {
+            const openTournaments = await tournamentController.getOpen();
+            res.render('tournaments', {
+                openTournaments
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    async allClosed(req, res) {
+        try {
+            const closedTournaments = await tournamentController.getClosed();
+            res.render('tournaments', {
+                closedTournaments
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    async one(req, res) {
+        const tournamentId = req.params.id;
+        try {
+            const games = await gameController.getOneTournament(tournamentId);
+            const rounds = await tournamentController.getCountOfRounds(tournamentId);
+            const count = rounds.count;
+            const table = rounds.rows;
+            res.render('tournamentGames', {
+                games,
+                count,
+                table
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    async allFromCountry(req, res) {
+        const countryName = req.params.countryName
+        try {
+            const openTournaments = await tournamentController.getOpenFromCountry(countryName);
+            const closedTournaments = await tournamentController.getClosedFromCountry(countryName);
+            res.render('tournaments', {
+                openTournaments,
+                closedTournaments
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    async allOpenFromCountry(req, res) {
+        const countryName = req.params.countryName
+        try {
+            const openTournaments = await tournamentController.getOpenFromCountry(countryName);
+            res.render('tournaments', {
+                openTournaments,
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    async allClosedFromCountry(req, res) {
+        const countryName = req.params.countryName
+        try {
+            const closedTournaments = await tournamentController.getClosedFromCountry(countryName);
+            res.render('tournaments', {
+                closedTournaments
+            })
+        } catch (err) {
+            console.log(err)
         }
     },
 
@@ -28,6 +112,115 @@ const tournamentController = {
         } catch (err) {
             console.log(err)
         }
+    },
+
+    async getOpen() {
+        const tournamentList = await Tournament.findAll({
+            attributes: ['id', 'name', 'start_date', 'link', 'is_closed'],
+            where: { is_closed: false},
+            order: [['start_date', 'ASC']],
+            include: [{
+                model: Type,
+                as: 'tournament_type',
+                attributes: ['name']
+            },
+            {
+                model: Country,
+                as: 'tournament_country',
+                attributes: ['name']
+            }]
+        });
+        return tournamentList;
+    },
+    
+    async getClosed() {
+        const tournamentList = await Tournament.findAll({
+            attributes: ['id', 'name', 'start_date', 'link', 'is_closed'],
+            where: { is_closed: true},
+            order: [['start_date', 'ASC']],
+            include: [{
+                model: Type,
+                as: 'tournament_type',
+                attributes: ['name']
+            },
+            {
+                model: Country,
+                as: 'tournament_country',
+                attributes: ['name']
+            }]
+        });
+        return tournamentList;
+    },
+
+    async getOpenFromCountry(countryName) {
+        const tournamentList = await Tournament.findAll({
+            attributes: ['id', 'name', 'start_date', 'link', 'is_closed'],
+            where: { is_closed: false},
+            order: [['start_date', 'ASC']],
+            include: [{
+                model: Type,
+                as: 'tournament_type',
+                attributes: ['name']
+            },
+            {
+                model: Country,
+                as: 'tournament_country',
+                where: {name: countryName},
+                attributes: ['name']
+            }]
+        });
+        return tournamentList;
+    },
+    
+    async getClosedFromCountry(countryName) {
+        const tournamentList = await Tournament.findAll({
+            attributes: ['id', 'name', 'start_date', 'link', 'is_closed'],
+            where: { is_closed: true},
+            order: [['start_date', 'ASC']],
+            include: [{
+                model: Type,
+                as: 'tournament_type',
+                attributes: ['name']
+            },
+            {
+                model: Country,
+                as: 'tournament_country',
+                where: {name: countryName},
+                attributes: ['name']
+            }]
+        });
+        return tournamentList;
+    },
+
+    async getCountOfRounds(tournamentId) {
+        const { count, rows } = await Round.findAndCountAll({
+            attributes: ['id', 'date', 'position'],
+            where: {'$round_tournament.id$': tournamentId},
+            order: [['position', 'ASC']],
+            include: [{
+                model: Tournament,
+                as: 'round_tournament',
+                attributes: ['id', 'name', 'start_date', 'end_date', 'link', 'is_closed'],
+                include: [{
+                    model: Type,
+                    as: 'tournament_type',
+                    attributes: ['id', 'name', 'color']
+                },{
+                    model: Style,
+                    as: 'tournament_style',
+                    attributes: ['id', 'name', 'color']
+                },{
+                    model: Version,
+                    as: 'tournament_version',
+                    attributes: ['id', 'name', 'color']
+                }]
+            },{
+                model: Scenario,
+                as: 'round_scenario',
+                attributes: ['id', 'name']
+            }]
+        })
+        return { count, rows };
     },
 
     async create(req, res) {
@@ -119,67 +312,6 @@ const tournamentController = {
         }
     },
 
-    // A vérifier ce qu'on garde / modifie
-    async getOpenTournaments() {
-        const tournamentList = await Tournament.findAll({
-            attributes: ['id', 'name', 'start_date', 'link', 'is_closed'],
-            where: { is_closed: false},
-            order: [['start_date', 'ASC']],
-            include: [{
-                model: Type,
-                as: 'tournament_type',
-                attributes: ['name']
-            }]
-        });
-        return tournamentList;
-    },
-    
-    async getClosedTournaments() {
-        const tournamentList = await Tournament.findAll({
-            attributes: ['id', 'name', 'start_date', 'link', 'is_closed'],
-            where: { is_closed: true},
-            order: [['start_date', 'ASC']],
-            include: [{
-                model: Type,
-                as: 'tournament_type',
-                attributes: ['name']
-            }]
-        });
-        return tournamentList;
-    },
-    
-    async countOfRounds(tournamentId) {
-        const { count, rows } = await Round.findAndCountAll({
-            attributes: ['id', 'date', 'position'],
-            where: {'$round_tournament.id$': tournamentId},
-            order: [['position', 'ASC']],
-            include: [{
-                model: Tournament,
-                as: 'round_tournament',
-                attributes: ['id', 'name', 'start_date', 'end_date', 'link', 'is_closed'],
-                include: [{
-                    model: Type,
-                    as: 'tournament_type',
-                    attributes: ['id', 'name', 'color']
-                },{
-                    model: Style,
-                    as: 'tournament_style',
-                    attributes: ['id', 'name', 'color']
-                },{
-                    model: Version,
-                    as: 'tournament_version',
-                    attributes: ['id', 'name', 'color']
-                }]
-            },{
-                model: Scenario,
-                as: 'round_scenario',
-                attributes: ['id', 'name']
-            }]
-        })
-        return { count, rows };
-    }
-
 }
-
 
 module.exports = tournamentController;

@@ -3,12 +3,14 @@ const express = require('express');
 const router = express.Router();
 const rankingController = require('../controllers/rankingController');
 
-router.get('/', rankingController.getAll);
-// router.get('/:id', rankingController.getOne);
+router.get('/', rankingController.all);
+router.get('/:faction', rankingController.OneFaction);
+router.get('/:type', rankingController.OneType);
+router.get('/:faction/:type', rankingController.OneFactionOneType);
+router.get('/:country', rankingController.OneCountryRankings);
+router.get('/:country/:faction', rankingController.OneCountryOneFaction);
+router.get('/:country/:type', rankingController.OneCountryOneType);
+router.get('/:country/:faction/:type', rankingController.OneCountryOneFactionOneType);
 
-// // CR.U.D.
-// router.post('/', rankingController.create);
-// router.put('/:id', rankingController.update);
-// router.delete('/:id', rankingController.delete);
 
 module.exports = router;
