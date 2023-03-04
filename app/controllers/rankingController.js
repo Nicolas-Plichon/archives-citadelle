@@ -2,7 +2,8 @@ const {
     Ranking,
     Player,
     Faction,
-    Type
+    Type,
+    Country
 } = require('../models');
 
 // Controllers
@@ -406,6 +407,16 @@ const rankingController = {
             }]
         });
         return rankingList;
+    },
+
+    async getOne(req, res) {
+        try {
+            const rankingId = req.params.id;
+            const ranking = await Ranking.findByPk(rankingId);
+            res.json(ranking);
+        } catch (err) {
+            console.log(err)
+        }
     },
 
     async create(req, res) {
