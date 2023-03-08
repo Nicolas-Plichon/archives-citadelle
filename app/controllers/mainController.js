@@ -1,11 +1,13 @@
-const gameController = require('./gameController');
-const tournamentController = require('./tournamentController');
+const express = require('express');
+const path = require('path');
 
+const gameController = require('./gameController');
 
 const mainController = {
 
     homePage(req, res) {
-        res.render('home');
+        let filePath = path.join(__dirname, '../../assets/html/index.html');
+        res.sendFile(filePath);
     },
 
     maesterHomePage(req, res) {

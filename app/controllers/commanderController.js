@@ -16,7 +16,7 @@ const commanderController = {
     async getOne(req, res) {
         try {
             const commanderId = req.params.id;
-            const commander = await Player.findByPk(commanderId);
+            const commander = await Commander.findByPk(commanderId);
             res.json(commander);
         } catch (err) {
             console.log(err)
@@ -59,7 +59,7 @@ const commanderController = {
                 } = req.body;
 
                 if(name) commander.name = name;
-                if(title) commander.title = natitleme;
+                if(title) commander.title = title;
                 if(faction_id) commander.faction_id = faction_id;
 
                 await commander.save();

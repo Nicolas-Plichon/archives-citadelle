@@ -16,6 +16,7 @@ const app = {
         try {
             const response = await fetch(`${app.api_base_url}/admin/countries`);
             const jsonData = await response.json();
+            console.log(jsonData);
             if(!response.ok) { throw new Error("Un problème horrible est survenu sur la requête HTTP")}
             console.log(jsonData);
 
@@ -38,4 +39,4 @@ const app = {
     },
 };
 
-document.addEventListener('DOMContentLoaded', app.init );
+document.addEventListener('DOMContentLoaded', app.init);

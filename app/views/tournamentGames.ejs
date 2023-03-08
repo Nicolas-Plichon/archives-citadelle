@@ -2,51 +2,53 @@
 <%- include('partials/header'); %>
 
 <body>
-    <%- include('partials/leftMenu'); %>
-    
-    <h1>Les Archives de la Citadelle</h1>
-       
-        <h2><%= games[0].game_round.round_tournament.name %></h2>
-        <p><%= games[0].game_round.round_tournament.tournament_type.name %></p>
+    <main>
+        <%- include('partials/leftMenu'); %>
+        
+        <h1>Les Archives de la Citadelle</h1>
+        
+            <h2><%= games[0].game_round.round_tournament.name %></h2>
+            <p><%= games[0].game_round.round_tournament.tournament_type.name %></p>
 
 
-        <% for (const round of table) { %>
-            <p>Ronde <%= round.position %> | <%= round.round_scenario.name %></p>
+            <% for (const round of table) { %>
+                <p>Ronde <%= round.position %> | <%= round.round_scenario.name %></p>
 
-            <section class="tournaments_section">      
-                <table class="tournament_table">
-                    <thead>
-                        <tr>
-                        <th>Joueur A</th>
-                        <th>Résultat</th>
-                        <th>Joueur B</th>
-                        </tr>
-                    </thead>
-                    <tbody>   
-                        
-                        <% for (const game of games) { %>
+                <section class="tournaments_section">      
+                    <table class="tournament_table">
+                        <thead>
+                            <tr>
+                            <th>Joueur A</th>
+                            <th>Résultat</th>
+                            <th>Joueur B</th>
+                            </tr>
+                        </thead>
+                        <tbody>   
                             
-                            <% if (game.game_round.id === round.id) { %>
+                            <% for (const game of games) { %>
                                 
-                                <tr>     
-                                    <% if (game.result === 'A') { %>
-                                    <td><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %></td>
-                                    <td>bat</td>
-                                    <td><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %></td>
-                        
-                                    <% } else { %>
-                                    <td><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %></td>
-                                    <td>bat</td>
-                                    <td><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %></td>
-                                    <% } %>
+                                <% if (game.game_round.id === round.id) { %>
                                     
-                                </tr>
-                                    <% } %>
-                                    <% } %>
-                                </tbody>
-                            </table>
-                                
-                            <% } %>
+                                    <tr>     
+                                        <% if (game.result === 'A') { %>
+                                        <td><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %></td>
+                                        <td>bat</td>
+                                        <td><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %></td>
+                            
+                                        <% } else { %>
+                                        <td><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_b.ranking_faction.logo %>" alt="<%= game.game_ranking_b.ranking_faction.name %>"> <%= game.game_ranking_b.ranking_player.name %></td>
+                                        <td>bat</td>
+                                        <td><img class="logo-faction" src="/images/logo_faction/<%= game.game_ranking_a.ranking_faction.logo %>" alt="<%= game.game_ranking_a.ranking_faction.name %>"> <%= game.game_ranking_a.ranking_player.name %></td>
+                                        <% } %>
+                                        
+                                    </tr>
+                                        <% } %>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                                    
+                                <% } %>
+    </main>
                             
 </body>
 </html>

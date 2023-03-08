@@ -1,3 +1,21 @@
+body {
+    margin: auto;
+    width: 85%;
+    height: 100%;
+    background: url("/images/bg-citadelle.jpg") no-repeat top center fixed;
+}
+
+main {
+    margin: auto;
+    width: 90%;
+    height: 98vh;
+    background-color: whitesmoke;
+    opacity: 0.90;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    padding: 0, 1rem;
+}
+
 .faction_link {
     width: 50%;
     display: flex;

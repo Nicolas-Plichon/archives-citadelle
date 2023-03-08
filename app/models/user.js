@@ -18,11 +18,11 @@ User.init({
         type: DataTypes.TEXT,
         allowNull: false
     },
-    firstname: {
+    firstName: {
         type: DataTypes.TEXT,
         allowNull: true
     },
-    lastname: {
+    lastName: {
         type: DataTypes.TEXT,
         allowNull: true
     }
