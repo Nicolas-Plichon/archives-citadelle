@@ -1,14 +1,16 @@
 body {
+    background: url("/images/bg-citadelle.jpg") no-repeat top center fixed; 
+}
+
+#page-container { 
     margin: auto;
-    width: 85%;
+    width: 90%;
     height: 100%;
-    background: url("/images/bg-citadelle.jpg") no-repeat top center fixed;
 }
 
 main {
     margin: auto;
     width: 90%;
-    height: 98vh;
     background-color: whitesmoke;
     opacity: 0.90;
     border-right: 1px solid black;
@@ -16,55 +18,70 @@ main {
     padding: 0, 1rem;
 }
 
-.faction_link {
+.factions-list {
+    margin: auto;
+    padding-top: 20px;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1.5rem; 
+}
+
+.faction-link {
     width: 50%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 1.5rem;
-}
+} 
 
-.ranking_section {
+.rankings-list {
     padding-left: 10vh;
 }
 
+
 /* Tableau des rankings */
-.ranking_table {
+thead {
+    font-weight: bold;
+}
+
+.ranking-table {
     border: 1px solid black;
 }
 
-.ranking_table a {
+.ranking-table a {
     color: black;
     text-decoration: none;
 }
 
-.ranking_table a:hover {
+.ranking-table a:hover {
     font-weight: bold;
     color: black;
 }
 
-.ranking_table th {
+.ranking-table th {
     height: 1.6rem;
     border-bottom: 1px solid black;
 }
 
-.ranking_table tr {
+.ranking-table tr {
     height: 1.6rem;
 }
 
-#ranking_rank {
+#ranking-rank {
     width: 1.5rem;
 }
 
-#ranking_pseudo {
+#ranking-pseudo {
     min-width: 25vh;
 }
 
-#ranking_faction {
+#ranking-faction {
     min-width: 15vh;
 }
 
-#ranking_value {
+#ranking-value {
     min-width: 10vh;
 }
 

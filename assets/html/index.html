@@ -5,21 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les Archives de la Citadelle</title>
+    <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+
 </head>
 <body>
-
-    <main>
-
-        <section id="countries-section">
-            <h2>Liste des Pays :</h2>
-            <template id="country-template">
-                <p class="country-name"></p>
-            </template>
-        </section>
+    <div id="page-container">
         
-        <script src="/js/app.js"></script>
+        <header>
+            
+        </header>
+        
+        <main>
+            <section class="factions-list">
+            
+                
+                
+            </section>
+
+            <section class="rankings-list">
+
+                <!-- En-tête du tableau -->
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th id="ranking-rank">#</th>
+                            <th id="ranking-pseudo">Pseudo</th>
+                            <th id="ranking-faction">Faction</th>
+                            <th id="ranking-value">Ranking</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
+            </section>
+        
     </main>
+    
+    <footer>
+        
+    </footer>
+    
+</div>
+
 </body>
+
+<!-- Chargement des fichiers JS -->
+<script src="/js/app.js"></script>
+<script src="/js/faction.js"></script>
+<script src="/js/ranking.js"></script>
+
 </html>

@@ -1,3 +1,4 @@
+const assert = require('assert');
 const {
     Faction
 } = require('../models');
@@ -5,12 +6,16 @@ const {
 
 const factionController = {
 
-    async getAll() {
-        const factionList = await Faction.findAll({
-            attributes: ['id', 'name'],
-            order: [['name', 'ASC']]
-        });
-        return factionList;
+    async getAll(req, res) {
+        try {
+            const factionList = await Faction.findAll({
+                attributes: ['id', 'name'],
+                order: [['name', 'ASC']]
+            });
+            res.json(factionList)
+        } catch (err) {
+            console.log(err)
+        }
     },
 
     async getOne(req, res) {

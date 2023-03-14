@@ -1,3 +1,4 @@
+const assert = require('assert');
 const {
     Ranking,
     Player,
@@ -12,16 +13,33 @@ const factionController = require('./factionController');
 
 const rankingController = {
 
-    async all(req, res) {
+    async allFactions(req, res) {
         try {
-            const rankings = await rankingController.getAll();
-            const factions = await factionController.getAll();
-            res.render('rankings', {
-                rankings,
-                factions
-            })
+            const rankingList = await Ranking.findAll({
+                attributes: ['id', 'ranking'],
+                order: [['ranking', 'DESC']],
+                include: [{
+                    model: Player,
+                    as: 'ranking_player',
+                    attributes: ['id', 'name'],
+                    include: {
+                        model: Country,
+                        as: 'player_country',
+                        attributes: ['name']
+                    }
+                }, {
+                    model: Faction,
+                    as: 'ranking_faction',
+                    attributes: ['name']
+                }, {
+                    model: Type,
+                    as: 'ranking_type',
+                    attributes: ['name']
+                }]
+            });
+            res.json(rankingList)
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
     },
 
@@ -150,32 +168,6 @@ const rankingController = {
         return rankingList;
     },
 
-    async getAll() {
-        const rankingList = await Ranking.findAll({
-            attributes: ['id', 'ranking'],
-            order: [['ranking', 'DESC']],
-            include: [{
-                model: Player,
-                as: 'ranking_player',
-                attributes: ['id', 'name'],
-                include: {
-                    model: Country,
-                    as: 'player_country',
-                    attributes: ['name']
-                }
-            }, {
-                model: Faction,
-                as: 'ranking_faction',
-                attributes: ['name']
-            }, {
-                model: Type,
-                as: 'ranking_type',
-                attributes: ['name']
-            }]
-        });
-        return rankingList;
-    },
-
     async getOnePlayerRankings(playerId) {
         const rankingList = await Ranking.findAll({
             attributes: ['id', 'ranking'],
@@ -189,32 +181,6 @@ const rankingController = {
                 model: Faction,
                 as: 'ranking_faction',
                 attributes: ['name'],
-            }, {
-                model: Type,
-                as: 'ranking_type',
-                attributes: ['name']
-            }]
-        });
-        return rankingList;
-    },
-
-    async getAll() {
-        const rankingList = await Ranking.findAll({
-            attributes: ['id', 'ranking'],
-            order: [['ranking', 'DESC']],
-            include: [{
-                model: Player,
-                as: 'ranking_player',
-                attributes: ['id', 'name'],
-                include: {
-                    model: Country,
-                    as: 'player_country',
-                    attributes: ['name']
-                }
-            }, {
-                model: Faction,
-                as: 'ranking_faction',
-                attributes: ['name']
             }, {
                 model: Type,
                 as: 'ranking_type',
@@ -407,6 +373,16 @@ const rankingController = {
             }]
         });
         return rankingList;
+    },
+
+    // CRUD 
+    async getAll(req, res) {
+        try {
+            const rankings = await Ranking.findAll();
+            res.json(rankings)
+        } catch (err) {
+            console.log(err);
+        }
     },
 
     async getOne(req, res) {

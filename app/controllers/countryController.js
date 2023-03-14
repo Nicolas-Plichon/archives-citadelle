@@ -1,3 +1,4 @@
+const assert = require('assert');
 const {
     Country
 } = require('../models');

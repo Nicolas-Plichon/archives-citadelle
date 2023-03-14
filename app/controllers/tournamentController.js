@@ -1,3 +1,4 @@
+const assert = require('assert');
 const {
     Tournament,
     Type,
@@ -101,6 +102,15 @@ const tournamentController = {
             })
         } catch (err) {
             console.log(err)
+        }
+    },
+
+    async getAll(req, res) {
+        try {
+            const tournaments = await Tournament.findAll();
+            res.json(tournaments)
+        } catch (err) {
+            console.log(err);
         }
     },
 
